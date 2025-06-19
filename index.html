@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparativa de Facturas de Electricidad</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.2em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+        
+        .main-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 40px;
+            background: #f8f9fa;
+        }
+        
+        .bill-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 3px solid;
+        }
+        
+        .bill-card.first {
+            border-color: #ff6b6b;
+        }
+        
+        .bill-card.second {
+            border-color: #4ecdc4;
+        }
+        
+        .bill-month {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .first .bill-month {
+            color: #ff6b6b;
+        }
+        
+        .second .bill-month {
+            color: #4ecdc4;
+        }
+        
+        .bill-total {
+            font-size: 3em;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .bill-period {
+            text-align: center;
+            font-size: 1.1em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .consumption-box {
+            background: #f0f8ff;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        
+        .consumption-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #1976d2;
+        }
+        
+        .savings-banner {
+            background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        
+        .savings-amount {
+            font-size: 2.5em;
+            margin: 10px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 40px;
+        }
+        
+        .detail-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid;
+        }
+        
+        .detail-card.power {
+            border-left-color: #ff9800;
+        }
+        
+        .detail-card.energy {
+            border-left-color: #2196f3;
+        }
+        
+        .detail-card.consumption {
+            border-left-color: #9c27b0;
+        }
+        
+        .detail-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .comparison-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .value-change {
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 20px;
+            color: white;
+        }
+        
+        .positive {
+            background: #4CAF50;
+        }
+        
+        .negative {
+            background: #f44336;
+        }
+        
+        .tips-section {
+            background: #fff3e0;
+            padding: 30px;
+            border-top: 3px solid #ff9800;
+        }
+        
+        .tips-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #e65100;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .tip-box {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid #ff9800;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .tip-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+        
+        .footer {
+            background: #37474f;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .main-comparison {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+            
+            .bill-total {
+                font-size: 2.5em;
+            }
+            
+            .savings-amount {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>💡 Comparativa de Facturas de Electricidad</h1>
+            <div class="subtitle">Antonio Andrea Pruneda - Octopus Energy</div>
+        </div>
+        
+        <!-- Main Comparison -->
+        <div class="main-comparison">
+            <div class="bill-card first">
+                <div class="bill-month">📅 ABRIL - MAYO</div>
+                <div class="bill-period">7 Abril - 7 Mayo (30 días)</div>
+                <div class="bill-total" style="color: #ff6b6b;">71,20€</div>
+                <div class="consumption-box">
+                    <div class="consumption-title">⚡ Consumo Total</div>
+                    <div style="font-size: 1.5em; text-align: center; font-weight: bold;">376 kWh</div>
+                </div>
+            </div>
+            
+            <div class="bill-card second">
+                <div class="bill-month">📅 MAYO - JUNIO</div>
+                <div class="bill-period">7 Mayo - 7 Junio (31 días)</div>
+                <div class="bill-total" style="color: #4ecdc4;">68,29€</div>
+                <div class="consumption-box">
+                    <div class="consumption-title">⚡ Consumo Total</div>
+                    <div style="font-size: 1.5em; text-align: center; font-weight: bold;">328 kWh</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Savings Banner -->
+        <div class="savings-banner">
+            <div>🎉 ¡BUENAS NOTICIAS!</div>
+            <div class="savings-amount">AHORRO: 2,91€</div>
+            <div>La segunda factura es un 4% más barata</div>
+        </div>
+        
+        <!-- Details Grid -->
+        <div class="details-grid">
+            <div class="detail-card power">
+                <div class="detail-title">🔌 POTENCIA CONTRATADA</div>
+                <div class="comparison-row">
+                    <span>Abril-Mayo:</span>
+                    <span style="font-weight: bold;">16,84€</span>
+                </div>
+                <div class="comparison-row">
+                    <span>Mayo-Junio:</span>
+                    <span style="font-weight: bold;">17,40€</span>
+                </div>
+                <div class="comparison-row">
+                    <span>Diferencia:</span>
+                    <span class="value-change negative">+0,56€ (+3%)</span>
+                </div>
+                <div style="margin-top: 15px; font-size: 0.9em; color: #666;">
+                    💡 <strong>¿Por qué subió?</strong> La segunda factura tiene 31 días en lugar de 30 días.
+                </div>
+            </div>
+            
+            <div class="detail-card energy">
+                <div class="detail-title">⚡ ENERGÍA CONSUMIDA</div>
+                <div class="comparison-row">
+                    <span>Abril-Mayo:</span>
+                    <span style="font-weight: bold;">38,02€</span>
+                </div>
+                <div class="comparison-row">
+                    <span>Mayo-Junio:</span>
+                    <span style="font-weight: bold;">35,12€</span>
+                </div>
+                <div class="comparison-row">
+                    <span>Diferencia:</span>
+                    <span class="value-change positive">-2,90€ (-8%)</span>
+                </div>
+                <div style="margin-top: 15px; font-size: 0.9em; color: #666;">
+                    🎯 <strong>¡Excelente!</strong> Gastaste menos electricidad pese a tener un día más.
+                </div>
+            </div>
+            
+            <div class="detail-card consumption">
+                <div class="detail-title">🕐 CONSUMO POR HORARIOS</div>
+                <div style="font-size: 0.9em; margin-bottom: 10px; color: #666;">
+                    <strong>Punta (más caro):</strong> 8:00-14:00 y 18:00-22:00
+                </div>
+                <div class="comparison-row">
+                    <span>Abril-Mayo:</span>
+                    <span>70 kWh</span>
+                </div>
+                <div class="comparison-row">
+                    <span>Mayo-Junio:</span>
+                    <span>76 kWh</span>
+                </div>
+                <div class="comparison-row">
+                    <span>Cambio:</span>
+                    <span class="value-change negative">+6 kWh</span>
+                </div>
+                
+                <div style="font-size: 0.9em; margin: 15px 0 10px 0; color: #666;">
+                    <strong>Valle (más barato):</strong> 22:00-8:00
+                </div>
+                <div class="comparison-row">
+                    <span>Abril-Mayo:</span>
+                    <span>198 kWh</span>
+                </div>
+                <div class="comparison-row">
+                    <span>Mayo-Junio:</span>
+                    <span>150 kWh</span>
+                </div>
+                <div class="comparison-row">
+                    <span>Cambio:</span>
+                    <span class="value-change positive">-48 kWh</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tips Section -->
+        <div class="tips-section">
+            <div class="tips-title">💡 CONSEJOS PARA SEGUIR AHORRANDO</div>
+            
+            <div class="tip-box">
+                <div><span class="tip-icon">🌙</span><strong>Aprovecha la tarifa nocturna:</strong></div>
+                <div style="margin-top: 8px;">Usa electrodomésticos como lavadora, lavavajillas o termo eléctrico entre las 22:00 y las 8:00. Es cuando la electricidad es más barata.</div>
+            </div>
+            
+            <div class="tip-box">
+                <div><span class="tip-icon">📱</span><strong>Controla las horas punta:</strong></div>
+                <div style="margin-top: 8px;">Evita usar muchos aparatos eléctricos entre 8:00-14:00 y 18:00-22:00. Es cuando más caro está el kWh.</div>
+            </div>
+            
+            <div class="tip-box">
+                <div><span class="tip-icon">🏠</span><strong>Pequeños gestos, grandes ahorros:</strong></div>
+                <div style="margin-top: 8px;">Apaga luces que no uses, desenchufa aparatos en standby, y ajusta la temperatura de la calefacción 1-2 grados menos.</div>
+            </div>
+            
+            <div class="tip-box">
+                <div><span class="tip-icon">📊</span><strong>Sigue así:</strong></div>
+                <div style="margin-top: 8px;">Has reducido 48 kWh en el consumo nocturno. Mantén estos buenos hábitos para seguir ahorrando cada mes.</div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <div>📞 Octopus Energy - Teléfono Atención: 900 759 190</div>
+            <div style="margin-top: 5px;">🌱 Tu electricidad es 100% renovable</div>
+        </div>
+    </div>
+</body>
+</html>
